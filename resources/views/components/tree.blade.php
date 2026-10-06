@@ -1,0 +1,12 @@
+@props(['members','groups','admin'=>false,'preview'=>false,'book'=>false])
+<div class="tree-shell {{ $book ? 'book-tree' : '' }}" data-tree>
+ <div class="tree-toolbar"><span><i class="status-dot"></i> {{ $admin ? 'Family tree' : 'पारिवारिक वंशवृक्ष' }}</span><div class="tree-controls"><button type="button" data-tree-action="layout" aria-pressed="{{ $book ? 'true' : 'false' }}">{{ $admin ? 'Book view' : 'पुस्तक शैली' }}</button><button type="button" data-tree-action="out" aria-label="Zoom out">−</button><span data-zoom>100%</span><button type="button" data-tree-action="in" aria-label="Zoom in">+</button><button type="button" data-tree-action="reset">{{ $admin ? 'Reset' : 'रिसेट' }}</button><button type="button" data-tree-action="expand">{{ $admin ? 'Expand' : 'विस्तार' }}</button><button type="button" data-tree-action="collapse">{{ $admin ? 'Collapse' : 'संकुचन' }}</button><button type="button" data-tree-action="fullscreen" aria-label="Full screen">⛶</button></div></div>
+ <div class="tree-viewport {{ $preview ? 'preview-tree' : '' }}"><div class="tree-canvas"><ul class="family-tree">
+ @forelse($groups->get(0, collect()) as $member)
+  @include('components.tree-node',['member'=>$member,'groups'=>$groups,'admin'=>$admin])
+ @empty
+  <li class="tree-empty"><span class="empty-symbol">♧</span><h3>{{ $admin ? 'Your family tree starts here' : 'वंशावलीको यात्रा यहाँबाट सुरु हुन्छ' }}</h3><p>{{ $admin ? 'Add the first ancestor, then use Add child to grow each branch.' : 'प्रमाणित पारिवारिक विवरणहरू संकलन हुँदैछन्। सदस्यहरू थपिएपछि वंशवृक्ष यहाँ देखिनेछ।' }}</p>@if($admin)<a class="button" href="{{ route('admin.members.create') }}">+ Add first member</a>@endif</li>
+ @endforelse
+ </ul></div></div><div class="tree-caption"><span>{{ $admin ? 'Select a name for details · Scroll to explore' : 'विवरणका लागि नाममा थिच्नुहोस् · सारेर वंशवृक्ष हेर्नुहोस्' }}</span><span>{{ $members->count() }} {{ $admin ? 'members' : 'सदस्य' }} · {{ $members->max('generation') ?? 0 }} {{ $admin ? 'generations' : 'पुस्ता' }}</span></div>
+ <dialog class="member-dialog"><button type="button" class="dialog-close" aria-label="Close">×</button><span class="eyebrow">{{ $admin ? 'MEMBER DETAILS' : 'सदस्य विवरण' }}</span><h2 data-detail-name></h2><p data-detail-english></p><span class="badge" data-detail-generation></span><p data-detail-description></p><p data-detail-location></p><p data-detail-annotation></p></dialog>
+</div>

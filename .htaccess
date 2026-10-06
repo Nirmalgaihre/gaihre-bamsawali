@@ -1,0 +1,8 @@
+# The web server document root should be this project's public/ directory.
+# Prevent direct access to application files when located under a shared htdocs.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(?:\.env(?:\..*)?|\.git|\.codex|\.agents|vendor|storage|config|database|app|bootstrap|routes|resources|tests)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:composer\.(?:json|lock)|package(?:-lock)?\.json|artisan|phpunit\.xml|.*\.md)$ - [F,L,NC]
+</IfModule>
+Options -Indexes

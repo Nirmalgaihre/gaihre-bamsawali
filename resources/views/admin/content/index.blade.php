@@ -1,0 +1,3 @@
+@extends('layouts.admin')
+@section('title','Website content')
+@section('content')<p class="page-description">Manage your introduction, history, and public pages. Every change appears on the website immediately.</p><div class="content-grid">@foreach($pages as $page)<article class="panel content-card"><span class="eyebrow">{{ str_replace('_',' ',$page->key) }}</span><h2>{{ $page->title }}</h2><p>{{ Str::limit(strip_tags($page->content),130) }}</p><div><span class="badge {{ $page->status ? 'green' : '' }}">{{ $page->status ? 'Visible' : 'Hidden' }}</span><a class="text-link" href="{{ route('admin.content.edit',$page) }}">Edit content ↗</a></div></article>@endforeach</div>@endsection
